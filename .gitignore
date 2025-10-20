@@ -1,0 +1,35 @@
+# Build artifacts
+build/
+*.o
+*.exe
+*.a
+*.so
+*.dylib
+
+# cJSON (will be auto-cloned)
+cJSON/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
+.env
+.env.local
+
+# Build system files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile.in
+*.cmake
+
+# Temporary files
+*.tmp
+*.bak
+*.log
