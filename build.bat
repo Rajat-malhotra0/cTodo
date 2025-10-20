@@ -74,16 +74,14 @@ if "%choice%"=="1" (
     echo Setting up cTodo for PowerShell...
     echo.
     
-    powershell -NoProfile -Command "^
-    $profilePath = $PROFILE.CurrentUserCurrentHost;^
-    if (-not (Test-Path $profilePath)) {^
-        $profileDir = Split-Path -Parent $profilePath;^
-        New-Item -ItemType Directory -Path $profileDir -Force | Out-Null;^
-        New-Item -ItemType File -Path $profilePath -Force | Out-Null;^
-    }^
-    Add-Content -Path $profilePath -Value \"`n# cTodo command`nSet-Alias -Name cTodo -Value '%cd%\build\todo-cli.exe' -Scope Global -Force`n\" -Encoding UTF8;^
-    Write-Host 'Setup complete! Restart PowerShell and type: cTodo';^
-    "
+    for %%I in ("%cd%\build\todo-cli.exe") do set exePath=%%~fI
+    
+    REM Create PowerShell profile directory if it doesn't exist
+    powershell -NoProfile -Command "$profileDir = Split-Path -Parent $PROFILE.CurrentUserCurrentHost; if (-not (Test-Path $profileDir)) { New-Item -ItemType Directory -Path $profileDir -Force | Out-Null }"
+    
+    REM Add alias to PowerShell profile
+    powershell -NoProfile -Command "Add-Content -Path $PROFILE.CurrentUserCurrentHost -Value ([Environment]::NewLine + '# cTodo command' + [Environment]::NewLine + 'Set-Alias -Name cTodo -Value \'%exePath%\' -Scope Global -Force') -Encoding UTF8; Write-Host 'Setup complete! Restart PowerShell and type: cTodo'"
+    
     pause
     goto end
 )
